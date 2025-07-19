@@ -1,4 +1,5 @@
-CONTAINER_SIZE = 960;
+const CONTAINER_SIZE = 960;
+const DARKEN_STEP = 255 * 0.1;
 let gridSize = 16;
 
 const container = document.querySelector(".container");
@@ -16,9 +17,25 @@ function createGrid(newGridSize) {
     const gridCell = document.createElement("div");
     gridCell.style.width = `${CONTAINER_SIZE / newGridSize}px`;
     gridCell.style.height = `${CONTAINER_SIZE / newGridSize}px`;
+
+    gridCell.style.backgroundColor = `rgb(
+    ${Math.random() * 255},
+    ${Math.random() * 255},
+    ${Math.random() * 255})`;
+
     gridCell.classList.add("gridCell");
     gridCell.addEventListener("mouseenter", () => {
-      gridCell.style.backgroundColor = "blue";
+      console.log(`inicial: ${gridCell.style.backgroundColor.match(/\d+/g)}`);
+      let gridCellColor = gridCell.style.backgroundColor.match(/\d+/g);
+
+      gridCell.style.backgroundColor = `rgb(
+      ${gridCellColor[0] - gridCellColor[0] * 0.1},
+      ${gridCellColor[1] - gridCellColor[1] * 0.1},
+      ${gridCellColor[2] - gridCellColor[2] * 0.1})
+      `;
+
+      console.log(DARKEN_STEP);
+      console.log(`final: ${gridCell.style.backgroundColor}`);
     });
     container.appendChild(gridCell);
   }
