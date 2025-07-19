@@ -1,6 +1,14 @@
 CONTAINER_SIZE = 960;
-function createGrid(gridSize = 16) {
-  const container = document.querySelector(".container");
+let gridSize = 16;
+
+const container = document.querySelector(".container");
+const resetBtn = document.querySelector(".btn-reset");
+
+resetBtn.addEventListener("click", handleResetButton);
+
+createGrid(gridSize);
+
+function createGrid(gridSize) {
   for (let i = 0; i < gridSize * gridSize; i++) {
     const gridCell = document.createElement("div");
     gridCell.style.width = `${CONTAINER_SIZE / gridSize}px`;
@@ -13,5 +21,7 @@ function createGrid(gridSize = 16) {
   }
   return;
 }
-
-createGrid(16);
+function handleResetButton() {
+  container.replaceChildren();
+  createGrid(gridSize);
+}
