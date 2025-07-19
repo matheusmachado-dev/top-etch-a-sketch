@@ -6,6 +6,9 @@ function createGrid(gridSize = 16) {
     gridCell.style.width = `${CONTAINER_SIZE / gridSize}px`;
     gridCell.style.height = `${CONTAINER_SIZE / gridSize}px`;
     gridCell.classList.add("gridCell");
+    gridCell.addEventListener("mouseenter", () => {
+      gridCell.style.backgroundColor = "blue";
+    });
     container.appendChild(gridCell);
   }
   return;
