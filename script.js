@@ -1,13 +1,16 @@
 const CONTAINER_SIZE = 960;
 const DARKEN_STEP = 255 * 0.1;
 let gridSize = 16;
+let isColorActive = false;
 
 const container = document.querySelector(".container");
 const resetBtn = document.querySelector(".btn-reset");
 const resizeBtn = document.querySelector(".btn-resize");
+const colorBtn = document.querySelector(".color-btn");
 
 resetBtn.addEventListener("click", handleResetBtn);
 resizeBtn.addEventListener("click", handleResizeBtn);
+colorBtn.addEventListener("click", handleColorBtn);
 
 createGrid(gridSize);
 
@@ -17,25 +20,18 @@ function createGrid(newGridSize) {
     const gridCell = document.createElement("div");
     gridCell.style.width = `${CONTAINER_SIZE / newGridSize}px`;
     gridCell.style.height = `${CONTAINER_SIZE / newGridSize}px`;
-
-    gridCell.style.backgroundColor = `rgb(
-    ${Math.random() * 255},
-    ${Math.random() * 255},
-    ${Math.random() * 255})`;
-
+    gridCell.style.backgroundColor = `rgb(0, 0, 0)`;
+    if (isColorActive) {
+      gridCell.style.backgroundColor = `rgb(
+      ${Math.random() * 255},
+      ${Math.random() * 255},
+      ${Math.random() * 255})`;
+    }
+    gridCell.style.opacity = 0;
     gridCell.classList.add("gridCell");
     gridCell.addEventListener("mouseenter", () => {
-      console.log(`inicial: ${gridCell.style.backgroundColor.match(/\d+/g)}`);
-      let gridCellColor = gridCell.style.backgroundColor.match(/\d+/g);
-
-      gridCell.style.backgroundColor = `rgb(
-      ${gridCellColor[0] - gridCellColor[0] * 0.1},
-      ${gridCellColor[1] - gridCellColor[1] * 0.1},
-      ${gridCellColor[2] - gridCellColor[2] * 0.1})
-      `;
-
-      console.log(DARKEN_STEP);
-      console.log(`final: ${gridCell.style.backgroundColor}`);
+      const current = parseFloat(gridCell.style.opacity);
+      gridCell.style.opacity = current + 0.1;
     });
     container.appendChild(gridCell);
   }
@@ -60,4 +56,10 @@ function handleResizeBtn() {
   }
   removeGrid();
   createGrid(userSize);
+}
+function handleColorBtn() {
+  isColorActive = !isColorActive;
+  colorBtn.textContent = isColorActive ? "Disable Colors" : "Active Colors";
+  removeGrid();
+  createGrid(gridSize);
 }
