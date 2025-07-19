@@ -32,7 +32,15 @@ function handleResetBtn() {
   createGrid(gridSize);
 }
 function handleResizeBtn() {
-  const userSize = prompt("Choose a new size between 1 and 100 squares");
+  let userSize = parseInt(
+    prompt("Choose a new size between 1 and 100 squares")
+  );
+  if (userSize > 100) {
+    userSize = 100;
+  }
+  if (userSize < 1) {
+    userSize = 1;
+  }
   removeGrid();
   createGrid(userSize);
 }
